@@ -1,6 +1,6 @@
 package oo.java.at;
 
-public class Aeronave {
+public abstract class Aeronave {
 
     protected String prefixo;
     protected String modelo;
@@ -14,4 +14,18 @@ public class Aeronave {
         this.modelo = modelo;
         this.fabricante = fabricante;
     }
+
+    public String getPrefixo() {
+        return prefixo;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public String getFabricante() {
+        return fabricante;
+    }
+    
+    
 }
