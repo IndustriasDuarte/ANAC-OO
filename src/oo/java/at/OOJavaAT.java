@@ -1,21 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package oo.java.at;
-
-/**
- *
- * @author guilh
- */
 public class OOJavaAT {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        helicoptero helicoptero01 = new helicoptero(TIPO.QUARDACOSTEIRA, "PREPRE", "Boing", "EU");
+        
+        System.out.println(helicoptero01.getTipo().getDescricao());
     }
     
 }

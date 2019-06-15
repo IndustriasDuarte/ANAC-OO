@@ -9,6 +9,6 @@ package oo.java.at;
  *
  * @author guilh
  */
-public class aviao {
+public class Cidade {
     
 }
