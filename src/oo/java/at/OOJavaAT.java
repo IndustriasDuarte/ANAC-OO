@@ -23,7 +23,7 @@ public class OOJavaAT {
         cidades.add(new Cidade("São Paulo", 1.521f));
         cidades.add(new Cidade("Salvador", 692.8f));
 
-        /*
+        
         cidades.get(0).setCidadeFronteira(cidades.get(1));
         cidades.get(0).setCidadeFronteira(cidades.get(2));
 
@@ -32,7 +32,7 @@ public class OOJavaAT {
 
         cidades.get(2).setCidadeFronteira(cidades.get(0));
         cidades.get(2).setCidadeFronteira(cidades.get(1));
-        */
+        
         
         //Aeroportos
         
