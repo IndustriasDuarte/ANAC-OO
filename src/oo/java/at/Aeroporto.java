@@ -8,18 +8,16 @@ public class Aeroporto {
     private String nome;
     private Cidade cidade;
     private boolean internacional;
-    private ArrayList<Aeroporto> aeroportosComVoosDiretos;
-    private ArrayList<Aeroporto> aeroportosQueVemVoos;
-    private ArrayList<Aeronave> aeronavesNoPatio;
+    private ArrayList<Aeroporto> aeroportosComVoosDiretos = new ArrayList<>();
+    private ArrayList<Aeroporto> aeroportosQueVemVoos = new ArrayList<>();
+    private ArrayList<Aeronave> aeronavesNoPatio = new ArrayList<>();
 
     public Aeroporto() {
     }
 
-    public Aeroporto(String codigo, String nome, Cidade cidade, boolean internacional) {
+    public Aeroporto(String codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
-        this.cidade = cidade;
-        this.internacional = internacional;
     }
 
     public boolean isInternacional() {
@@ -66,7 +64,7 @@ public class Aeroporto {
                 str = "Possui rota alternativa apartir do aeroporto " + aeroporto.getNome();
             }
         }
-        
+
         return str;
     }
 
@@ -75,7 +73,6 @@ public class Aeroporto {
     }
 
     public String getNome() {
-
         return nome;
     }
 
@@ -85,10 +82,6 @@ public class Aeroporto {
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
-    }
-
-    public ArrayList<Aeroporto> getAeroportosComVoosDiretos() {
-        return aeroportosComVoosDiretos;
     }
 
     public void setAeroportosComVoosDiretos(Aeroporto aeroporto) {
@@ -103,10 +96,6 @@ public class Aeroporto {
         }
     }
 
-    public ArrayList<Aeroporto> getAeroportosQueVemVoos() {
-        return aeroportosQueVemVoos;
-    }
-
     public void setAeroportosQueVemVoos(Aeroporto aeroporto) {
         try {
             if (this.aeroportosQueVemVoos.size() == 100) {
@@ -117,10 +106,6 @@ public class Aeroporto {
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
-
-    public ArrayList<Aeronave> getAeronavesNoPatio() {
-        return aeronavesNoPatio;
     }
 
     public void setAeronavesNoPatio(Aeronave aeronave) {
@@ -135,4 +120,11 @@ public class Aeroporto {
         }
     }
 
+    public void removeAeronavesNoPatio(Aeronave aeronave) {
+        if(this.aeronavesNoPatio.contains(aeronave)){
+            this.aeronavesNoPatio.remove(aeronave);
+        }else{
+            System.out.println("Aeronave não esta no patio");
+        }
+    }
 }

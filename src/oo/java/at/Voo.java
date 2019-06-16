@@ -54,4 +54,38 @@ public class Voo {
     public Aeronave getAeronave() {
         return aeronave;
     }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public void setNumeroDeVagas(int numeroDeVagas) {
+        this.numeroDeVagas = numeroDeVagas;
+    }
+
+    public void setDataDePartida(String dataDePartida) {
+        this.dataDePartida = dataDePartida;
+    }
+
+    public void setHorarioDePartida(String horarioDePartida) {
+        this.horarioDePartida = horarioDePartida;
+    }
+
+    public void setHorarioDeChegada(String horarioDeChegada) {
+        this.horarioDeChegada = horarioDeChegada;
+    }
+
+    public void setAeroportoDeOrigem(Aeroporto aeroportoDeOrigem) {
+        this.aeroportoDeOrigem = aeroportoDeOrigem;
+    }
+
+    public void setAeroportoDeDestino(Aeroporto aeroportoDeDestino) {
+        this.aeroportoDeDestino = aeroportoDeDestino;
+    }
+
+    public void setAeronave(Aeronave aeronave) {
+        this.aeronave = aeronave;
+    }
+    
+    
 }

@@ -6,7 +6,10 @@ public class Cidade {
 
     private String nome;
     private float dimensao;
-    private ArrayList<Cidade> cidadeFronteira;
+    private ArrayList<Cidade> cidadeFronteira = new ArrayList<>();
+
+    public Cidade() {
+    }
 
     public Cidade(String nome, float dimensao) {
         this.nome = nome;
@@ -21,7 +24,7 @@ public class Cidade {
         try {
             if (this.cidadeFronteira.size() > 40) {
                 throw new Exception("Limite da cidade excedida!");
-            }else{
+            } else {
                 this.cidadeFronteira.add(cidadeFronteira);
             }
         } catch (Exception e) {
@@ -58,10 +61,14 @@ public class Cidade {
     }
 
     public boolean limitrofe(Cidade outra) {
-        for (Cidade cidade : cidadeFronteira) {
-            if (cidade.equals(outra)) {
-                return true;
+        if (this.cidadeFronteira.size() > 0) {
+            for (Cidade cidade : this.cidadeFronteira) {
+                if (cidade.equals(outra)) {
+                    return true;
+                }
             }
+        }else{
+            System.out.println("Lista esta vazia.");
         }
         return false;
     }
@@ -69,12 +76,16 @@ public class Cidade {
     public String vizinhosComuns(Cidade cidade) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Cidade cidadeAtual : cidadeFronteira) {
+        for (Cidade cidadeAtual : this.cidadeFronteira) {
             for (Cidade outraCidade : cidade.getCidadeFronteira()) {
                 if (cidadeAtual.equals(outraCidade)) {
                     stringBuilder.append(cidadeAtual.getNome());
                 }
             }
+        }
+
+        if (stringBuilder.length() == 0) {
+            stringBuilder.append("As cidades não tem vizinhos comuns.");
         }
 
         return stringBuilder.toString();
