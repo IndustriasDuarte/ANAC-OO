@@ -1,12 +1,13 @@
 package oo.java.at;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Cidade {
 
     private String nome;
     private float dimensao;
-    private ArrayList<Cidade> cidadeFronteira = new ArrayList<>();
+    private ArrayList<Cidade> cidadeFronteira;
 
     public Cidade() {
     }
@@ -14,13 +15,14 @@ public class Cidade {
     public Cidade(String nome, float dimensao) {
         this.nome = nome;
         this.dimensao = dimensao;
+        this.cidadeFronteira = new ArrayList<>();
     }
 
     public ArrayList<Cidade> getCidadeFronteira() {
         return cidadeFronteira;
     }
 
-    public void setCidadeFronteira(Cidade cidadeFronteira) {
+    public void addCidadeFronteira(Cidade cidadeFronteira) {
         try {
             if (this.cidadeFronteira.size() > 40) {
                 throw new Exception("Limite da cidade excedida!");

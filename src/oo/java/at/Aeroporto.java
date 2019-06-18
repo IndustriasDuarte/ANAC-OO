@@ -8,9 +8,9 @@ public class Aeroporto {
     private String nome;
     private Cidade cidade;
     private boolean internacional;
-    private ArrayList<Aeroporto> aeroportosComVoosDiretos = new ArrayList<>();
-    private ArrayList<Aeroporto> aeroportosQueVemVoos = new ArrayList<>();
-    private ArrayList<Aeronave> aeronavesNoPatio = new ArrayList<>();
+    private ArrayList<Aeroporto> aeroportosComVoosDiretos;
+    private ArrayList<Aeroporto> aeroportosQueVemVoos;
+    private ArrayList<Aeronave> aeronavesNoPatio;
 
     public Aeroporto() {
     }
@@ -18,9 +18,12 @@ public class Aeroporto {
     public Aeroporto(String codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
+        this.aeroportosComVoosDiretos = new ArrayList<>();
+        this.aeroportosQueVemVoos = new ArrayList<>();
+        this.aeronavesNoPatio = new ArrayList<>();
     }
 
-    public boolean isInternacional() {
+    public boolean getInternacional() {
         return internacional;
     }
 
@@ -36,7 +39,7 @@ public class Aeroporto {
         }
     }
 
-    public boolean getAeronavesNoPatio(String prefixo) {
+    public boolean verAeronavesNoPatio(String prefixo) {
         for (Aeronave aeronave : aeronavesNoPatio) {
             if (aeronave.getPrefixo().equals(prefixo)) {
                 return true;
@@ -48,24 +51,17 @@ public class Aeroporto {
 
     public boolean possuiRota(Aeroporto aeroposto) {
         boolean possui = false;
-        for (Aeroporto aeroporto : aeroportosComVoosDiretos) {
-            if (aeroporto.equals(aeroposto)) {
-                possui = true;
+        if (this.aeroportosComVoosDiretos.contains(aeroposto)) {
+            possui = true;
+        } else {
+            for (Aeroporto aeroporto : aeroportosComVoosDiretos) {
+                if (aeroporto.possuiRota(aeroposto)) {
+                    possui = true;
+                }
             }
         }
 
         return possui;
-    }
-
-    public String possuiRotaAlternativa(Aeroporto aeroposto) {
-        String str = "Não possui rota alternativa.";
-        for (Aeroporto aeroporto : aeroportosComVoosDiretos) {
-            if (aeroporto.possuiRota(aeroposto)) {
-                str = "Possui rota alternativa apartir do aeroporto " + aeroporto.getNome();
-            }
-        }
-
-        return str;
     }
 
     public String getCodigo() {
@@ -84,7 +80,7 @@ public class Aeroporto {
         this.cidade = cidade;
     }
 
-    public void setAeroportosComVoosDiretos(Aeroporto aeroporto) {
+    public void addAeroportosComVoosDiretos(Aeroporto aeroporto) {
         try {
             if (this.aeroportosComVoosDiretos.size() == 100) {
                 throw new Exception("Limite do aeroporto excedido!");
@@ -96,7 +92,7 @@ public class Aeroporto {
         }
     }
 
-    public void setAeroportosQueVemVoos(Aeroporto aeroporto) {
+    public void addAeroportosQueVemVoos(Aeroporto aeroporto) {
         try {
             if (this.aeroportosQueVemVoos.size() == 100) {
                 throw new Exception("Limite do aeroporto excedido!");
@@ -108,7 +104,7 @@ public class Aeroporto {
         }
     }
 
-    public void setAeronavesNoPatio(Aeronave aeronave) {
+    public void addAeronavesNoPatio(Aeronave aeronave) {
         try {
             if (this.aeronavesNoPatio.size() == 100) {
                 throw new Exception("Limite do aeroporto excedido!");
@@ -121,9 +117,9 @@ public class Aeroporto {
     }
 
     public void removeAeronavesNoPatio(Aeronave aeronave) {
-        if(this.aeronavesNoPatio.contains(aeronave)){
+        if (this.aeronavesNoPatio.contains(aeronave)) {
             this.aeronavesNoPatio.remove(aeronave);
-        }else{
+        } else {
             System.out.println("Aeronave não esta no patio");
         }
     }

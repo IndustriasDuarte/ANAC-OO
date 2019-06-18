@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 public class OOJavaAT {
 
     public static void main(String[] args) {
+
         ArrayList<Aviao> aviaos = new ArrayList<>();
         ArrayList<Helicoptero> helicopteros = new ArrayList<>();
         ArrayList<Voo> voos = new ArrayList<>();
@@ -26,18 +27,17 @@ public class OOJavaAT {
         Cidade cidade2 = new Cidade("São Paulo", 1.521f);
         Cidade cidade3 = new Cidade("Salvador", 692.8f);
 
+        cidade1.addCidadeFronteira(cidade2);
+        cidade1.addCidadeFronteira(cidade3);
+
+        cidade2.addCidadeFronteira(cidade1);
+        cidade2.addCidadeFronteira(cidade3);
+
+        cidade3.addCidadeFronteira(cidade1);
+
         cidades.add(cidade1);
         cidades.add(cidade2);
         cidades.add(cidade3);
-
-        cidade1.setCidadeFronteira(cidade2);
-        cidade1.setCidadeFronteira(cidade3);
-
-        cidade2.setCidadeFronteira(cidade1);
-        cidade2.setCidadeFronteira(cidade3);
-
-        cidade3.setCidadeFronteira(cidade1);
-        cidade3.setCidadeFronteira(cidade1);
 
         //Aeroportos
         Aeroporto aeroporto1 = new Aeroporto("AER", "Aeroporto Real");
@@ -52,8 +52,15 @@ public class OOJavaAT {
         aeroporto3.setCidade(cidade3);
         aeroporto3.setInternacional(true);
 
-        aeroporto1.setAeroportosComVoosDiretos(aeroporto2);
-        aeroporto2.setAeroportosQueVemVoos(aeroporto1);
+        aeroporto1.addAeroportosComVoosDiretos(aeroporto2);
+        aeroporto2.addAeroportosQueVemVoos(aeroporto1);
+
+        aeroporto3.addAeroportosComVoosDiretos(aeroporto1);
+        aeroporto1.addAeroportosQueVemVoos(aeroporto3);
+
+        aeroporto1.addAeronavesNoPatio(aviao1);
+        aeroporto2.addAeronavesNoPatio(aviao2);
+        aeroporto3.addAeronavesNoPatio(helicoptero1);
 
         aeroportos.add(aeroporto1);
         aeroportos.add(aeroporto2);
@@ -276,7 +283,7 @@ public class OOJavaAT {
         do {
             try {
                 opcao = Integer.parseInt(JOptionPane.showInputDialog(null, "Escolha uma das opcoes: \n"
-                        + " [1] - Listar codigos dos aeroportos \n" //digitar o codigo para mais detalhes (nome, cidade, internacional)
+                        + " [1] - Listar aeroportos \n" //digitar o codigo para mais detalhes (nome, cidade, internacional)
                         + " [2] - Cadastrar aeroportos \n"
                         + " [3] - Remover aeroportos \n"
                         + " [4] - Verificar se um aeroporto é igual a outro \n"
@@ -631,7 +638,7 @@ public class OOJavaAT {
             stringBuilder.append("Codigo: ").append(aeroporto.getCodigo()).append("\n");
             stringBuilder.append("Nome: ").append(aeroporto.getNome()).append("\n");
             stringBuilder.append("Cidade: ").append(aeroporto.getCidade().getNome()).append("\n");
-            stringBuilder.append("Internacional: ").append(aeroporto.isInternacional()).append("\n");
+            stringBuilder.append("Internacional: ").append(aeroporto.getInternacional()).append("\n");
             stringBuilder.append("---------------------------- \n");
         }
 
@@ -909,8 +916,8 @@ public class OOJavaAT {
                 break;
         }
 
-        aeroportoDeOrigem.setAeroportosComVoosDiretos(aeroportoDeDestino);
-        aeroportoDeDestino.setAeroportosQueVemVoos(aeroportoDeOrigem);
+        aeroportoDeOrigem.addAeroportosComVoosDiretos(aeroportoDeDestino);
+        aeroportoDeDestino.addAeroportosQueVemVoos(aeroportoDeOrigem);
     }
 
     public static void removerVoos(ArrayList<Voo> voos) {
@@ -1005,25 +1012,13 @@ public class OOJavaAT {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        boolean codigoExiste = false;
-        String codigo;
-
-        codigo = leString("Insira o codigo do Aeroporto no qual deseja consultar: \n" + consultarCodigoAeroportos(aeroportos));
 
         for (Aeroporto aeroporto : aeroportos) {
-            if (aeroporto.getCodigo().equals(codigo)) {
-                codigoExiste = true;
-                stringBuilder.append("Codigo: ").append(aeroporto.getCodigo()).append("\n");
-                stringBuilder.append("Nome: ").append(aeroporto.getNome()).append("\n");
-                stringBuilder.append("Cidade: ").append(aeroporto.getCidade().getNome()).append("\n");
-                stringBuilder.append("Internacional: ").append(aeroporto.isInternacional()).append("\n");
-                stringBuilder.append("---------------------------- \n");
-                break;
-            }
-        }
-
-        if (!codigoExiste) {
-            mensagem("Codigo não existe!");
+            stringBuilder.append("Codigo: ").append(aeroporto.getCodigo()).append("\n");
+            stringBuilder.append("Nome: ").append(aeroporto.getNome()).append("\n");
+            stringBuilder.append("Cidade: ").append(aeroporto.getCidade().getNome()).append("\n");
+            stringBuilder.append("Internacional: ").append(aeroporto.getInternacional()).append("\n");
+            stringBuilder.append("---------------------------- \n");
         }
 
         mensagem(stringBuilder.toString());
@@ -1077,9 +1072,9 @@ public class OOJavaAT {
                 + consultarCodigoAeroportos(aeroportos), aeroportos);
 
         if (aeroporto1.equals(aeroporto2)) {
-            mensagem("O aeroporto " + aeroporto1.getNome() + " é igual a " + aeroporto2.getNome());
+            mensagem("Os aeroportos são iguais.");
         } else {
-            mensagem("O aeroporto " + aeroporto1.getNome() + " não é igual a " + aeroporto2.getNome());
+            mensagem("Os aeroportos não são iguais.");
         }
     }
 
@@ -1095,7 +1090,7 @@ public class OOJavaAT {
         switch (tipoAeronave) {
             case 1://aviao
                 Aviao aviao = leAviao("Entre com o prefixo do aviao \n" + consultarAeronaves(aviaos, helicopteros, tipoAeronave), aviaos);
-                if (aeroporto.getAeronavesNoPatio(aviao.getPrefixo())) {
+                if (aeroporto.verAeronavesNoPatio(aviao.getPrefixo())) {
                     mensagem("O avião esta no patio");
                 } else {
                     mensagem("O avião não esta no patio");
@@ -1103,7 +1098,7 @@ public class OOJavaAT {
                 break;
             case 2://helicoptero
                 Helicoptero helicoptero = leHelicoptero("Entre com o prefixo do helicoptero \n" + consultarAeronaves(aviaos, helicopteros, tipoAeronave), helicopteros);
-                if (aeroporto.getAeronavesNoPatio(helicoptero.getPrefixo())) {
+                if (aeroporto.verAeronavesNoPatio(helicoptero.getPrefixo())) {
                     mensagem("O helicoptero esta no patio");
                 } else {
                     mensagem("O helicoptero não esta no patio");
@@ -1122,9 +1117,9 @@ public class OOJavaAT {
         Aeroporto aeroporto2 = leAeroporto("Entre com o codigo do aeroporto que deseje verificar se possui rota: \n" + consultarCodigoAeroportos(aeroportos), aeroportos);
 
         if (aeroporto1.possuiRota(aeroporto2)) {
-            mensagem("Possui Voo direto");
+            mensagem("Possui forma de chegar");
         } else {
-            mensagem(aeroporto1.possuiRotaAlternativa(aeroporto2));
+            mensagem("Não possui forma de chegar");
         }
     }
 
@@ -1150,20 +1145,20 @@ public class OOJavaAT {
                         switch (tipoAeronave) {
                             case 1://aviao
                                 Aviao aviao1 = leAviao("Entre com o prefixo do aviao \n" + consultarAeronaves(aviaos, helicopteros, tipoAeronave), aviaos);
-                                aeroporto.setAeronavesNoPatio(aviao1);
+                                aeroporto.addAeronavesNoPatio(aviao1);
 
                                 for (Aeroporto aeroporto1 : aeroportos) {
-                                    if (!aeroporto1.equals(aeroporto) && aeroporto1.getAeronavesNoPatio(aviao1.getPrefixo())) {
+                                    if (!aeroporto1.equals(aeroporto) && aeroporto1.verAeronavesNoPatio(aviao1.getPrefixo())) {
                                         aeroporto1.removeAeronavesNoPatio(aviao1);
                                     }
                                 }
                                 break;
                             case 2://helicoptero
                                 Helicoptero helicoptero1 = leHelicoptero("Entre com o prefixo do helicoptero \n" + consultarAeronaves(aviaos, helicopteros, tipoAeronave), helicopteros);
-                                aeroporto.setAeronavesNoPatio(helicoptero1);
+                                aeroporto.addAeronavesNoPatio(helicoptero1);
 
                                 for (Aeroporto aeroporto1 : aeroportos) {
-                                    if (!aeroporto1.equals(aeroporto) && aeroporto1.getAeronavesNoPatio(helicoptero1.getPrefixo())) {
+                                    if (!aeroporto1.equals(aeroporto) && aeroporto1.verAeronavesNoPatio(helicoptero1.getPrefixo())) {
                                         aeroporto1.removeAeronavesNoPatio(helicoptero1);
                                     }
                                 }
